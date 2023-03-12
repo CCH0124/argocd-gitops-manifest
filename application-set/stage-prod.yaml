@@ -2,16 +2,17 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: quarkus-appset-git-helm-chart
+  namespace: argo
 spec:
   generators:
     - list:
-      elements:
-      - cluster: k3d-stage-cluster
-        url: https://172.23.0.10:6443
-        ns: stage
-      - cluster: k3d-prod-cluster
-        url: https://172.23.0.13:6443
-        ns: prod
+        elements:
+        - cluster: k3d-stage-cluster
+          url: https://172.23.0.10:6443
+          ns: stage
+        - cluster: k3d-prod-cluster
+          url: https://172.23.0.13:6443
+          ns: prod
     - git:
         repoURL: https://github.com/CCH0124/helm-charts
         revision: dev
