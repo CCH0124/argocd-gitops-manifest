@@ -9,10 +9,8 @@ spec:
         elements:
         - cluster: k3d-stage-cluster
           url: https://172.23.0.10:6443
-          ns: stage
         - cluster: k3d-prod-cluster
           url: https://172.23.0.13:6443
-          ns: prod
     - git:
         repoURL: https://github.com/CCH0124/helm-charts
         revision: dev
@@ -24,19 +22,19 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/CCH0124/helm-charts
-        path: '{{path}}'
-        targetRevision: dev
+        repoURL: '{{source.repoURL}}'
+        path: '{{source.path}}'
+        targetRevision: '{{source.targetRevision}}'
         helm:
           version: v3
-          releaseName: 'api-{{ns}}'
+          releaseName: 'api-{{cluster}}'
           valueFiles:
-          - 'env/values-{{ns}}.yaml'
+          - 'env/values-stage.yaml'
           ignoreMissingValueFiles: false
           skipCrds: true
       destination:
         server: '{{url}}'
-        namespace: '{{ns}}'
+        namespace: test
       syncPolicy:
         automated:
           prune: true
