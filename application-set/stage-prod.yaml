@@ -14,7 +14,7 @@ spec:
         ns: prod
     - git:
         repoURL: https://github.com/CCH0124/helm-charts
-        revision: HEAD
+        revision: dev
         directories:
           - path: "kubernetes-api"
   template:
@@ -24,8 +24,15 @@ spec:
       project: default
       source:
         repoURL: https://github.com/CCH0124/helm-charts
-        path: '{{`{{path}}`}}'
-        targetRevision: HEAD
+        path: '{{path}}'
+        targetRevision: dev
+        helm:
+          version: v3
+          releaseName: 'api-{{ns}}'
+          valueFiles:
+          - 'env/values-{{ns}}.yaml'
+          ignoreMissingValueFiles: false
+          skipCrds: true
       destination:
         server: '{{url}}'
         namespace: '{{ns}}'
