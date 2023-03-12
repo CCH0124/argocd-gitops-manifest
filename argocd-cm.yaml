@@ -16,7 +16,3 @@ data:
 
   # disables admin user. Admin is enabled by default
   admin.enabled: "true"
-
-  repositories: |
-    - url: https://github.com/hwchiu/hiskio-gitops-argocd-manifest.git
-    - url: https://github.com/hwchiu/hiskio-gitops-demo-manifest.git
