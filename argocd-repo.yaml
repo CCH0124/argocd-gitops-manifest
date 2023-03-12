@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: github-helm-charts-repo
-  namespace: argocd
+  namespace: argo
   labels:
     argocd.argoproj.io/secret-type: repository
 stringData:
@@ -12,7 +12,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: github-argocd-repo
-  namespace: argocd
+  namespace: argo
   labels:
     argocd.argoproj.io/secret-type: repository
 stringData:
