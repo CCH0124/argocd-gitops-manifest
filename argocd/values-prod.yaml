@@ -1,0 +1,70 @@
+redis-ha:
+  enabled: true
+
+controller:
+  replicas: 1
+
+server:
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+  certificate:
+    enabled: false
+    secretName: argo-cch-tls
+    domain: argo.cch.com
+    privateKey:
+      rotationPolicy: Never
+      encoding: PKCS1
+      algorithm: RSA
+      size: 2048
+
+  # TLS certificate configuration via Secret
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hosts:
+      - argo.cch.com
+    paths:
+      - /
+    pathType: Prefix
+    https: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      kubernetes.io/tls-acme: "true"
+    tls:
+      - secretName: argocd-secret # # do not change, this is provided by Argo CD
+        hosts:
+          - argo.cch.com
+repoServer:
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+
+applicationSet:
+  replicaCount: 2
+
+configs:
+  cm:
+    create: true
+    application.instanceLabelKey: argocd.argoproj.io/instance
+    server.rbac.log.enforce.enable: false
+    exec.enabled: false
+    exec.shells: "bash,sh,powershell,cmd"
+    admin.enabled: true
+    timeout.reconciliation: 180s
+    statusbadge.enabled: "true"
+    kustomize.enabled: true
+    jsonnet.enabled: false
+    helm.enabled: true
+params:
+  # -- Number of application status processors
+  controller.status.processors: 20
+  # -- Number of application operation processors
+  controller.operation.processors: 10
+  # -- Specifies timeout between application self heal attempts
+  controller.self.heal.timeout.seconds: 5
+  # -- Repo server RPC call timeout seconds.
+  controller.repo.server.timeout.seconds: 60
+  reposerver.parallelism.limit: 0
