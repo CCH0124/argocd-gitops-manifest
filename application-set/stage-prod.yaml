@@ -22,9 +22,9 @@ spec:
     spec:
       project: default
       source:
-        repoURL: '{{source.repoURL}}'
-        path: '{{source.path}}'
-        targetRevision: '{{source.targetRevision}}'
+        repoURL:  https://github.com/CCH0124/helm-charts
+        path: kubernetes-api
+        targetRevision: dev
         helm:
           version: v3
           releaseName: 'api-{{cluster}}'
