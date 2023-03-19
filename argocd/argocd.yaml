@@ -70,7 +70,7 @@ spec:
             create: true
             application.instanceLabelKey: argocd.argoproj.io/instance
             server.rbac.log.enforce.enable: false
-            exec.enabled: false
+            exec.enabled: true
             exec.shells: "bash,sh,powershell,cmd"
             admin.enabled: true
             timeout.reconciliation: 180s
@@ -104,6 +104,7 @@ spec:
               p, role:op, accounts, *,  *, allow
               p, role:op, certificates, *,  *, allow
               p, role:op, gpgkeys, *,  *, allow
+              p, role:op, exec, create, */*, allow
               g, opsuser, role:op
 
         params:
