@@ -81,7 +81,8 @@ spec:
             accounts.devuser: login
             accounts.pmuser: login
             accounts.opsuser: login
-        rbacConfig:
+        rbac:
+          create: true
           policy.default: role:''
           policy.csv: |
             p, role:dev, applications, *,  dev-project/*, allow
