@@ -82,7 +82,7 @@ spec:
             accounts.pmuser: login
             accounts.opsuser: login
         rbacConfig:
-          policy.default: role:readonly
+          policy.default: ""
           policy.csv: |
             p, role:dev, applications, *,  dev-project/*, allow
             p, role:dev, projects, get,  dev-project, allow
