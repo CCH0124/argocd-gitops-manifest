@@ -103,7 +103,7 @@ spec:
             p, role:op, accounts, *,  *, allow
             p, role:op, certificates, *,  *, allow
             p, role:op, gpgkeys, *,  *, allow
-            g, opuser, role:op
+            g, opsuser, role:op
 
         params:
           # -- Number of application status processors
