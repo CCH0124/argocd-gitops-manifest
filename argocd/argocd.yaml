@@ -78,6 +78,9 @@ spec:
             kustomize.enabled: true
             jsonnet.enabled: false
             helm.enabled: true
+            accounts.devuser: login
+            accounts.pmuser: login
+            accounts.opsuser: login
         params:
           # -- Number of application status processors
           controller.status.processors: 20
