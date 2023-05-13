@@ -5,25 +5,23 @@ metadata:
   namespace: argo
 spec:
   generators:
-  - matrix:
-      generators:
-        - git:
-            repoURL: https://github.com/CCH0124/helm-charts
-            revision: argo-appset
-            directories:
-              - path: kustomizes/namespace-config/overlays/*
-        - clusters:
-            selector:
-              matchLabels:
-                env: stage
-            values:
+    - matrix:
+        generators:
+          - git:
+              repoURL: https://github.com/CCH0124/helm-charts
               revision: argo-appset
-        - clusters:
-            selector:
-              matchLabels:
-                env: dev
-            values:
-              revision: argo-appset
+              directories:
+                - path: kustomizes/namespace-config/overlays/*
+          - clusters:
+              selector:
+                matchExpressions:
+                  - key: env
+                    operator: In
+                    values:
+                      - dev
+                      - stage
+              values:
+                revision: argo-appset
   template:
     metadata:
       name: '{{name}}-ns-set'
