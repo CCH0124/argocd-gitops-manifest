@@ -7,11 +7,6 @@ spec:
   generators:
     - matrix:
         generators:
-          - git:
-              repoURL: https://github.com/CCH0124/helm-charts
-              revision: argo-appset
-              directories:
-                - path: kustomizes/namespace-config/overlays/*
           - clusters:
               selector:
                 matchExpressions:
@@ -22,6 +17,11 @@ spec:
                       - stage
               values:
                 revision: argo-appset
+          - git:
+              repoURL: https://github.com/CCH0124/helm-charts
+              revision: argo-appset
+              directories:
+                - path: kustomizes/namespace-config/overlays/'{{server}}'/*
   template:
     metadata:
       name: '{{name}}-ns-set'
