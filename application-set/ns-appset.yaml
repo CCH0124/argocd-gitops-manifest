@@ -18,20 +18,20 @@ spec:
           clusterName: '{{name}}'
     - list:
         elements:
-          - ns: team-a
-          - ns: team-b
+          - template: team-a
+          - template: team-b
   template:
     metadata:
-      name: '{{values.clusterName}}-{{ns}}'
+      name: '{{values.clusterName}}-{{template}}'
     spec:
       project: default
       source:
         repoURL:  https://github.com/CCH0124/helm-charts
         targetRevision: '{{values.revision}}'
-        path: 'kustomizes/namespace-config/overlays/{{values.clusterName}}/{{ns}}'
+        path: 'kustomizes/namespace-config/overlays/{{values.clusterName}}/{{template}}'
       destination:
         server: '{{server}}'
-        namespace: '{{ns}}'
+        namespace: '{{template}}'
       syncPolicy:
         automated:
           prune: true
