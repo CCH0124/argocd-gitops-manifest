@@ -5,21 +5,23 @@ metadata:
   namespace: argo
 spec:
   generators:
-    - clusters:
-        selector:
-          matchExpressions:
-            - key: env
-              operator: In
+    - matrix:
+        generators:
+          - clusters:
+              selector:
+                matchExpressions:
+                  - key: env
+                    operator: In
+                    values:
+                      - dev
+                      - stage
               values:
-                - dev
-                - stage
-        values:
-          revision: argo-appset
-          clusterName: '{{name}}'
-    - list:
-        elements:
-          - template: team-a
-          - template: team-b
+                revision: argo-appset
+                clusterName: '{{name}}'
+          - list:
+              elements:
+                - template: team-a
+                - template: team-b
   template:
     metadata:
       name: '{{values.clusterName}}-{{template}}'
