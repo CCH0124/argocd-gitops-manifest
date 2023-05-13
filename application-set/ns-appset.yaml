@@ -13,8 +13,8 @@ spec:
               values:
               - dev
               - stage
-          values:
-            revision: argo-appset
+        values:
+          revision: argo-appset
     - list:
         elements:
           - ns: team-a
