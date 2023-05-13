@@ -22,7 +22,7 @@ spec:
           - ns: team-b
   template:
     metadata:
-      name: '{{values.clusterName}}-ns-set'
+      name: '{{values.clusterName}}-{{ns}}'
     spec:
       project: default
       source:
