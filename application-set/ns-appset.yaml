@@ -21,7 +21,7 @@ spec:
               repoURL: https://github.com/CCH0124/helm-charts
               revision: argo-appset
               directories:
-                - path: kustomizes/namespace-config/overlays/'{{server}}'/**
+                - path: kustomizes/namespace-config/overlays/*/*
   template:
     metadata:
       name: '{{name}}-ns-set'
