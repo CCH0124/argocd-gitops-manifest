@@ -11,8 +11,8 @@ spec:
             - key: env
               operator: In
               values:
-              - dev
-              - stage
+                - dev
+                - stage
         values:
           revision: argo-appset
     - list:
@@ -27,7 +27,7 @@ spec:
       source:
         repoURL:  https://github.com/CCH0124/helm-charts
         targetRevision: '{{values.revision}}'
-        path: 'kustomizes/namespace-config/overlays/{{server}}/{{ns}}'
+        path: 'kustomizes/namespace-config/overlays/{{name}}/{{ns}}'
       destination:
         server: '{{server}}'
         namespace: '{{ns}}'
