@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: ns-appset-matrix
+  namespace: argo
+spec:
+  generators:
+  - matrix:
+      generators:
+        - git:
+            repoURL: https://github.com/CCH0124/helm-charts
+            revision: argo-appset
+            directories:
+              - path: kustomizes/namespace-config/overlays/*
+        - clusters:
+            selector:
+              matchLabels:
+                env: stage
+            values:
+              revision: argo-appset
+        - clusters:
+            selector:
+              matchLabels:
+                env: dev
+            values:
+              revision: argo-appset
+  template:
+    metadata:
+      name: '{{name}}-ns-set'
+    spec:
+      project: default
+      source:
+        repoURL:  https://github.com/CCH0124/helm-charts
+        targetRevision: '{{values.revision}}'
+        path: '{{path}}'
+      destination:
+        server: '{{server}}'
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
