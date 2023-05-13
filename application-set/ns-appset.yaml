@@ -30,7 +30,7 @@ spec:
       source:
         repoURL:  https://github.com/CCH0124/helm-charts
         targetRevision: '{{values.revision}}'
-        path: '{{path}}'
+        path: 'kustomizes/namespace-config/overlays/{{path[3]}}/{{path.basename}}'
       destination:
         server: '{{server}}'
         namespace: '{{path.basename}}'
