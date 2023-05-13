@@ -15,19 +15,20 @@ spec:
                 - stage
         values:
           revision: argo-appset
+          clusterName: '{{name}}'
     - list:
         elements:
           - ns: team-a
           - ns: team-b
   template:
     metadata:
-      name: '{{name}}-ns-set'
+      name: '{{values.clusterName}}-ns-set'
     spec:
       project: default
       source:
         repoURL:  https://github.com/CCH0124/helm-charts
         targetRevision: '{{values.revision}}'
-        path: 'kustomizes/namespace-config/overlays/{{name}}/{{ns}}'
+        path: 'kustomizes/namespace-config/overlays/{{values.clusterName}}/{{ns}}'
       destination:
         server: '{{server}}'
         namespace: '{{ns}}'
