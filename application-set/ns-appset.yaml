@@ -5,22 +5,20 @@ metadata:
   namespace: argo
 spec:
   generators:
-    - matrix:
-        generators:
-          - clusters:
-              selector:
-                matchExpressions:
-                  - key: env
-                    operator: In
-                    values:
-                      - dev
+    - clusters:
+        selector:
+          matchExpressions:
+            - key: env
+              operator: In
               values:
-                revision: argo-appset
-          - git:
-              repoURL: https://github.com/CCH0124/helm-charts
-              revision: argo-appset
-              directories:
-                - path: kustomizes/namespace-config/overlays/*/*
+              - dev
+              - stage
+          values:
+            revision: argo-appset
+    - list:
+        elements:
+          - ns: team-a
+          - ns: team-b
   template:
     metadata:
       name: '{{name}}-ns-set'
@@ -29,10 +27,10 @@ spec:
       source:
         repoURL:  https://github.com/CCH0124/helm-charts
         targetRevision: '{{values.revision}}'
-        path: 'kustomizes/namespace-config/overlays/{{path[3]}}/{{path.basename}}'
+        path: 'kustomizes/namespace-config/overlays/{{server}}/{{ns}}'
       destination:
         server: '{{server}}'
-        namespace: '{{path.basename}}'
+        namespace: '{{ns}}'
       syncPolicy:
         automated:
           prune: true
