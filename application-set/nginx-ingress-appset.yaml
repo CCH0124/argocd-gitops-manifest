@@ -16,6 +16,8 @@ spec:
         chart: ingress-nginx/ingress-nginx
         targetRevision: 4.4.2
         helm:
+          releaseName: ingress-nginx
+          version: v3
           valueFiles:
           - $values/infra/charts/nginx-ingress/values.yaml
       - repoURL: 'https://github.com/CCH0124/helm-charts.git'
