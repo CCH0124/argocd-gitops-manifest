@@ -21,7 +21,7 @@ spec:
           valueFiles:
           - $values/infra/charts/nginx-ingress/values.yaml
       - repoURL: 'https://github.com/CCH0124/helm-charts.git'
-        targetRevision: HEAD
+        targetRevision: argo-appset
         ref: values
       destination:
         server: '{{server}}'
