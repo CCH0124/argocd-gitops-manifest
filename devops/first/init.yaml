@@ -50,7 +50,7 @@ spec:
       include: '{developer/*.yaml, devops/first/*.yaml}'
   destination:
     server: https://kubernetes.default.svc
-    namespace: '*'
+    namespace: 'argo'
   # Sync policy
   syncPolicy:
     automated:
