@@ -9,118 +9,24 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: argo
-  project: default
-  source:
-    repoURL: https://argoproj.github.io/argo-helm
+  project: sre-project
+  sources:
+  - repoURL: https://argoproj.github.io/argo-helm
     chart: argo-cd
-    targetRevision: 5.23.2 
+    targetRevision: 7.1.3
     helm:
       releaseName: argo-cd
       version: v3
-      values: |
-        redis-ha:
-          enabled: true
-
-        controller:
-          replicas: 1
-
-        server:
-          autoscaling:
-            enabled: true
-            minReplicas: 1
-          certificate:
-            enabled: false
-            secretName: argo-cch-tls
-            domain: argo.cch.com
-            privateKey:
-              rotationPolicy: Never
-              encoding: PKCS1
-              algorithm: RSA
-              size: 2048
-
-          # TLS certificate configuration via Secret
-          ingress:
-            enabled: true
-            ingressClassName: "nginx"
-            hosts:
-              - argo.cch.com
-            paths:
-              - /
-            pathType: Prefix
-            https: true
-            annotations:
-              cert-manager.io/cluster-issuer: letsencrypt-prod
-              nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-              kubernetes.io/tls-acme: "true"
-            tls:
-              - secretName: argocd-secret # # do not change, this is provided by Argo CD
-                hosts:
-                  - argo.cch.com
-        repoServer:
-          autoscaling:
-            enabled: true
-            minReplicas: 2
-
-        applicationSet:
-          replicaCount: 2
-
-        configs:
-          cm:
-            create: true
-            application.instanceLabelKey: argocd.argoproj.io/instance
-            server.rbac.log.enforce.enable: false
-            exec.enabled: true
-            exec.shells: "bash,sh,powershell,cmd"
-            admin.enabled: true
-            timeout.reconciliation: 180s
-            statusbadge.enabled: "true"
-            kustomize.enabled: true
-            jsonnet.enabled: false
-            helm.enabled: true
-            accounts.devuser: login
-            accounts.pmuser: login
-            accounts.opsuser: login
-          rbac:
-            create: true
-            policy.default: role:''
-            policy.csv: |
-              p, role:dev, applications, *,  dev-project/*, allow
-              p, role:dev, projects, get,  dev-project, allow
-              p, role:dev, repositories, get,  *, allow
-              p, role:dev, clusters, get,  *, allow
-              g, devuser, role:dev
-              
-              p, role:pm, applications, get,  */*, allow
-              p, role:pm, projects, get,  *, allow
-              p, role:pm, repositories, get,  *, allow
-              p, role:pm, clusters, get,  *, allow
-              g, pmuser, role:pm
-
-              p, role:op, applications, *,  */*, allow
-              p, role:op, projects, *,  *, allow
-              p, role:op, repositories, *,  *, allow
-              p, role:op, clusters, *,  *, allow
-              p, role:op, accounts, *,  *, allow
-              p, role:op, certificates, *,  *, allow
-              p, role:op, gpgkeys, *,  *, allow
-              p, role:op, exec, create, */*, allow
-              g, opsuser, role:op
-
-        params:
-          # -- Number of application status processors
-          controller.status.processors: 20
-          # -- Number of application operation processors
-          controller.operation.processors: 10
-          # -- Specifies timeout between application self heal attempts
-          controller.self.heal.timeout.seconds: 5
-          # -- Repo server RPC call timeout seconds.
-          controller.repo.server.timeout.seconds: 60
-          reposerver.parallelism.limit: 0
+      valueFiles:
+      - $values/argo-cd/values.yaml
+  - repoURL: https://github.com/CCH0124/argocd-sandbox.git
+    targetRevision: v0.0.1
+    ref: values
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+      allowEmpty: false
     syncOptions:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
