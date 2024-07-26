@@ -13,6 +13,9 @@ spec:
   destinations:
   - namespace: team-a
     name: stage-cluster
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
   namespaceResourceWhitelist:
   - group: 'apps'
     kind: Deployment
