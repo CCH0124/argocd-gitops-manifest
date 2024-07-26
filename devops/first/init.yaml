@@ -49,7 +49,7 @@ spec:
     path: '.'
     directory:
       recurse: true
-      exclude: '{devops/*, application-set}'
+      exclude: '{devops/argocd, application-set}'
       include: '{developer/*.yaml, devops/first/*.yaml}'
   destination:
     server: https://kubernetes.default.svc
