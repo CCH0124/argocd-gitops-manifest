@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: team-a-project
+  namespace: argo
+  # Finalizer that ensures that project is not deleted until it is not referenced by any application
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Project for team-a
+  sourceRepos:
+  - https://github.com/CCH0124/K8s-with-quarkus.git
+  destinations:
+  - namespace: team-a
+    name: stage-cluster
+  namespaceResourceWhitelist:
+  - group: 'apps'
+    kind: Deployment
+  - group: 'apps'
+    kind: ReplicaSet
+  - group: '*'
+    kind: ServiceAccount
+  - group: '*'
+    kind: Service
+  - group: '*'
+    kind: Pod
+  permitOnlyProjectScopedClusters: true

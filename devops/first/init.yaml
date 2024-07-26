@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: sre-project
+  namespace: argo
+  # Finalizer that ensures that project is not deleted until it is not referenced by any application
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # 專案而外描述
+  description: Project for sre
+  # 允許的 Git 儲存庫部署清單
+  sourceRepos:
+  - https://github.com/CCH0124/argocd-gitops-manifest.git
+  # 部署資源到 Kubernetes 的目的
+  destinations:
+  - namespace: 'argo'
+    name: https://kubernetes.default.svc
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sre-repo
+  namespace: argo
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: https://github.com/CCH0124/argocd-gitops-manifest.git
+---
