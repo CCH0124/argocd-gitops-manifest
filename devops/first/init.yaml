@@ -28,3 +28,46 @@ stringData:
   type: git
   url: https://github.com/CCH0124/argocd-gitops-manifest.git
 ---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sre-app
+  namespace: argo
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: sre-app
+    team: sre
+spec:
+  project: sre-project
+  source:
+    repoURL: https://github.com/CCH0124/argocd-gitops-manifest.git
+    targetRevision: HEAD
+    path: '*'
+  directory:
+    recurse: true
+    exclude: '{devops/*, application-set}'
+    include: '{developer/, devops/first/*.yaml}'
+  destination:
+    name: https://kubernetes.default.svc
+    namespace: *
+  # Sync policy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:  
+    - Validate=false
+    - CreateNamespace=true
+    - ApplyOutOfSyncOnly=true
+    managedNamespaceMetadata:
+      annotations:
+        team: sre
+        manage-by: argocd
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
