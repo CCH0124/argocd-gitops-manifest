@@ -16,8 +16,8 @@ spec:
     path: '.'
     directory:
       recurse: true
-      exclude: '{devops/argocd,application-set}'
-      include: '{developer/*.yaml,devops/first/*.yaml}'
+      exclude: '{application-set}'
+      include: '{developer/*.yaml,devops/*.yaml}'
   destination:
     server: https://kubernetes.default.svc
     namespace: 'argo'
