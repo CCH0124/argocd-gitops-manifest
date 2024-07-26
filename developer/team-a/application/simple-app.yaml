@@ -17,7 +17,7 @@ spec:
     directory:
       recurse: true
       exclude: '*.json'
-      include: '{*.yaml, *.yml}'
+      include: '{*.yaml,*.yml}'
   destination:
     name: stage-cluster
     namespace: team-a
