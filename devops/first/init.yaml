@@ -16,6 +16,9 @@ spec:
   destinations:
   - namespace: '*'
     server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
 ---
 apiVersion: v1
 kind: Secret
