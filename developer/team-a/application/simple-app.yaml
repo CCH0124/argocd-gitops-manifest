@@ -14,10 +14,10 @@ spec:
     repoURL: https://github.com/CCH0124/K8s-with-quarkus.git
     targetRevision: HEAD
     path: application-simple/simple-app/kubernetes
-  directory:
-    recurse: true
-    exclude: '*.json'
-    include: '*.yaml'
+    directory:
+      recurse: true
+      exclude: '*.json'
+      include: '*.yaml'
   destination:
     name: stage-cluster
     namespace: team-a

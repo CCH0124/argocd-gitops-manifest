@@ -44,13 +44,13 @@ spec:
     repoURL: https://github.com/CCH0124/argocd-gitops-manifest.git
     targetRevision: HEAD
     path: '*'
-  directory:
-    recurse: true
-    exclude: '{devops/*, application-set}'
-    include: '{developer/, devops/first/*.yaml}'
+    directory:
+      recurse: true
+      exclude: '{devops/*, application-set}'
+      include: '{developer/*.yaml, devops/first/*.yaml}'
   destination:
     name: https://kubernetes.default.svc
-    namespace: *
+    namespace: '*'
   # Sync policy
   syncPolicy:
     automated:
