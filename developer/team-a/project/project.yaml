@@ -13,6 +13,8 @@ spec:
   destinations:
   - namespace: team-a
     name: stage-cluster
+  - namespace: team-a
+    name: k3d-dev-cluster
   clusterResourceWhitelist:
   - group: ''
     kind: Namespace
