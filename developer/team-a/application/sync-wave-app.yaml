@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sync-wave-app
+  namespace: argo
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: sync-wave-app
+    environment: dev
+spec:
+  project: team-a-project
+  source:
+    repoURL: https://github.com/CCH0124/K8s-with-quarkus.git
+    targetRevision: v0.0.3
+    path: argocd-sample/sync-hook-wave
+    directory:
+      recurse: true
+      include: '{*.yaml,*.yml}'
+  destination:
+    name: k3d-dev-cluster
+    namespace: team-a
+  # Sync policy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:  
+    - Validate=true
+    - CreateNamespace=true
+    - ApplyOutOfSyncOnly=true
+    managedNamespaceMetadata:
+      labels:
+        env: dev
+      annotations:
+        team: team-a
+        manage-by: argocd
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
