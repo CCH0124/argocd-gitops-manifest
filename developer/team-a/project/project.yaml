@@ -29,4 +29,6 @@ spec:
     kind: Service
   - group: '*'
     kind: Pod
+  - group: 'batch'
+    kind: Job
   permitOnlyProjectScopedClusters: false
