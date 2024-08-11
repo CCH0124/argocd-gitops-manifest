@@ -10,6 +10,7 @@ spec:
   description: Project for team-a
   sourceRepos:
   - https://github.com/CCH0124/K8s-with-quarkus.git
+  - https://github.com/CCH0124/helm-charts.git
   destinations:
   - namespace: team-a
     name: stage-cluster
