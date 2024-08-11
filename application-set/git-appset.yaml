@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: git-generator-app
+  namespace: argo
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - matrix:
+      generators:
+      - git:
+          repoURL: https://github.com/CCH0124/helm-charts.git
+          revision: argo-appset
+          directories:
+          - path: charts/*
+      - clusters: 
+          selector:
+            matchExpressions:
+              - key: env
+                operator: In
+                values:
+                  - dev
+                  - stage
+                  - prd
+          values:
+            env: '{{index .metadata.annotations "env"}}' 
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: team-a-project
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+          allowEmpty: true
+        syncOptions:
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=false
+      source:
+        repoURL: https://github.com/CCH0124/helm-charts.git
+        targetRevision: 'argo-appset'
+        path: 'charts/{{path.basename}}'
+        helm:
+          valueFiles:
+            - 'values-{{.values.env}}.yaml'
+          ignoreMissingValueFiles: true
+          releaseName: '{{path.basename}}-{{.values.env}}'
+      destination:
+        server: '{{server}}'
+        namespace: 'team-a'
