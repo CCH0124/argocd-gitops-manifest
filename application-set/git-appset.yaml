@@ -9,11 +9,6 @@ spec:
   generators:
   - matrix:
       generators:
-      - git:
-          repoURL: https://github.com/CCH0124/helm-charts.git
-          revision: argo-appset
-          directories:
-          - path: charts/*
       - clusters: 
           selector:
             matchExpressions:
@@ -25,9 +20,14 @@ spec:
                   - prd
           values:
             env: '{{index .metadata.annotations "env"}}' 
+      - git:
+          repoURL: https://github.com/CCH0124/helm-charts.git
+          revision: argo-appset
+          directories:
+          - path: charts/*
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: '{{.path.basename}}'
     spec:
       project: team-a-project
       syncPolicy:
@@ -41,12 +41,12 @@ spec:
       source:
         repoURL: https://github.com/CCH0124/helm-charts.git
         targetRevision: 'argo-appset'
-        path: 'charts/{{path.basename}}'
+        path: 'charts/{{.path.basename}}'
         helm:
           valueFiles:
             - 'values-{{.values.env}}.yaml'
           ignoreMissingValueFiles: true
-          releaseName: '{{path.basename}}-{{.values.env}}'
+          releaseName: '{{.path.basename}}-{{.values.env}}'
       destination:
-        server: '{{server}}'
+        server: '{{.server}}'
         namespace: 'team-a'
