@@ -15,13 +15,13 @@ spec:
                     values:
                       - dev
                       - stage
-              values:
+              values: # 定義額外的變數
                 revision: argo-appset
-                clusterName: '{{name}}'
-          - list:
+                clusterName: '{{name}}' # name 會來自 secrets 中定義 cluster 的欄位 
+          - list: # 定義一系列的變數，這邊就是以 team-b、team-c 為一個範例
               elements:
-                - template: team-a
                 - template: team-b
+                - template: team-c
   template:
     metadata:
       name: '{{values.clusterName}}-{{template}}'
@@ -40,3 +40,9 @@ spec:
           selfHeal: true
         syncOptions:
         - CreateNamespace=true
+        managedNamespaceMetadata:
+          labels:
+            env: '{{values.clusterName}}'
+          annotations:
+            team: '{{template}}'
+            manage-by: argocd  
