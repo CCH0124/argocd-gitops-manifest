@@ -12,6 +12,8 @@ spec:
   # 允許的 Git 儲存庫部署清單
   sourceRepos:
   - https://github.com/CCH0124/argocd-gitops-manifest.git
+  - https://kubernetes.github.io/ingress-nginx
+  - https://github.com/CCH0124/argocd-sandbox.git
   # 部署資源到 Kubernetes 的目的
   destinations:
   - namespace: '*'
