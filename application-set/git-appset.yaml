@@ -27,7 +27,7 @@ spec:
           - path: charts/*
   template:
     metadata:
-      name: '{{.path.basename}}'
+      name: '{{.path.basename}}-{{.values.env}}'
     spec:
       project: team-a-project
       syncPolicy:
