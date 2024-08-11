@@ -48,5 +48,6 @@ spec:
           ignoreMissingValueFiles: true
           releaseName: '{{.path.basename}}-{{.values.env}}'
       destination:
-        name: '{{.name}}'
+        # name: '{{.name}}'
+        name: '{{.server}}'
         namespace: 'team-a'
