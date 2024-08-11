@@ -49,5 +49,5 @@ spec:
           releaseName: '{{.path.basename}}-{{.values.env}}'
       destination:
         # name: '{{.name}}'
-        name: '{{.server}}'
+        server: '{{.server}}'
         namespace: 'team-a'
