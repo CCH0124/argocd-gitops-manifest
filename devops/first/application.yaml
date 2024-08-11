@@ -12,7 +12,7 @@ spec:
   project: sre-project
   source:
     repoURL: https://github.com/CCH0124/argocd-gitops-manifest.git
-    targetRevision: HEAD
+    targetRevision: v0.0.4
     path: '.'
     directory:
       recurse: true
