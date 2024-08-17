@@ -32,4 +32,6 @@ spec:
     kind: Pod
   - group: 'batch'
     kind: Job
+  sourceNamespaces:
+  - team-b
   permitOnlyProjectScopedClusters: false
