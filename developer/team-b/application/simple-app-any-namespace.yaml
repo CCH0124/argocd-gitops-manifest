@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: simple-app-any-ns
-  namespace: argo
+  namespace: team-b
   labels:
     name: simple-app-any-ns
     environment: stage
@@ -10,7 +10,7 @@ spec:
   project: team-b-project
   source:
     repoURL: https://github.com/CCH0124/K8s-with-quarkus.git
-    targetRevision: HEAD
+    targetRevision: v0.0.6
     path: application-simple/simple-app/kubernetes
     directory:
       recurse: true
