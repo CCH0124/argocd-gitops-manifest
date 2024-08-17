@@ -27,8 +27,14 @@ spec:
       allowEmpty: false
     syncOptions:  
     - Validate=false
-    - CreateNamespace=false
+    - CreateNamespace=true
     - ApplyOutOfSyncOnly=true
+    managedNamespaceMetadata:
+      labels:
+        env: stage
+      annotations:
+        team: team-b
+        manage-by: argocd
     retry:
       limit: 5
       backoff:
