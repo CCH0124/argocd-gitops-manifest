@@ -2,9 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: simple-app-any-ns
-  namespace: team-b
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  namespace: argo
   labels:
     name: simple-app-any-ns
     environment: stage
