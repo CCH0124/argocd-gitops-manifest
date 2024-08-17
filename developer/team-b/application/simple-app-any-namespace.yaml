@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple-app-any-ns
+  namespace: team-b
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: simple-app-any-ns
+    environment: stage
+spec:
+  project: team-b-project
+  source:
+    repoURL: https://github.com/CCH0124/K8s-with-quarkus.git
+    targetRevision: HEAD
+    path: application-simple/simple-app/kubernetes
+    directory:
+      recurse: true
+      exclude: '*.json'
+      include: '{*.yaml,*.yml}'
+  destination:
+    name: stage-cluster
+    namespace: team-b
+  # Sync policy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:  
+    - Validate=false
+    - CreateNamespace=false
+    - ApplyOutOfSyncOnly=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
