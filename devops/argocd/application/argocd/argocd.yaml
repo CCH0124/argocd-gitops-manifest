@@ -20,7 +20,7 @@ spec:
       valueFiles:
       - $values/argo-cd/values.yaml
   - repoURL: https://github.com/CCH0124/argocd-sandbox.git
-    targetRevision: v0.0.2
+    targetRevision: v0.0.6
     ref: values
   syncPolicy:
     automated:

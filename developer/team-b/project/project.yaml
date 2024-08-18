@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: team-b-project
+  namespace: argo
+  # Finalizer that ensures that project is not deleted until it is not referenced by any application
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Project for team-b
+  sourceRepos:
+  - https://github.com/CCH0124/K8s-with-quarkus.git
+  - https://github.com/CCH0124/helm-charts.git
+  destinations:
+  - namespace: team-b
+    name: stage-cluster
+  - namespace: team-b
+    name: k3d-dev-cluster
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
+  namespaceResourceWhitelist:
+  - group: 'apps'
+    kind: Deployment
+  - group: 'apps'
+    kind: ReplicaSet
+  - group: '*'
+    kind: ServiceAccount
+  - group: '*'
+    kind: Service
+  - group: '*'
+    kind: Pod
+  - group: 'batch'
+    kind: Job
+  sourceNamespaces:
+  - team-b
+  permitOnlyProjectScopedClusters: false

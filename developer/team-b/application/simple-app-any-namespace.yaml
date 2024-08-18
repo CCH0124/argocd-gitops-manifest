@@ -1,25 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sre-app
-  namespace: argo
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  name: simple-app-any-ns
+  namespace: team-b
   labels:
-    name: sre-app
-    team: sre
+    name: simple-app-any-ns
+    environment: stage
 spec:
-  project: sre-project
+  project: team-b-project
   source:
-    repoURL: https://github.com/CCH0124/argocd-gitops-manifest.git
+    repoURL: https://github.com/CCH0124/K8s-with-quarkus.git
     targetRevision: v0.0.6
-    path: '.'
+    path: application-simple/simple-app/kubernetes
     directory:
       recurse: true
-      include: '{developer/*.yaml,devops/*.yaml,application-set/*.yaml}'
+      exclude: '*.json'
+      include: '{*.yaml,*.yml}'
   destination:
-    server: https://kubernetes.default.svc
-    namespace: 'argo'
+    name: stage-cluster
+    namespace: team-b
   # Sync policy
   syncPolicy:
     automated:
@@ -27,12 +26,14 @@ spec:
       selfHeal: true
       allowEmpty: false
     syncOptions:  
-    - Validate=true
+    - Validate=false
     - CreateNamespace=true
     - ApplyOutOfSyncOnly=true
     managedNamespaceMetadata:
+      labels:
+        env: stage
       annotations:
-        team: sre
+        team: team-b
         manage-by: argocd
     retry:
       limit: 5
