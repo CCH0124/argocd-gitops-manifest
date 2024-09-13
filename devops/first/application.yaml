@@ -9,8 +9,8 @@ metadata:
     name: sre-app
     team: sre
   annotations:
-    notifications.argoproj.io/subscribe.on-deployed.telegram: "-100137740911"
-    notifications.argoproj.io/subscribe.on-sync-status-running.telegram: "-100137740911"
+    notifications.argoproj.io/subscribe.on-deployed.telegram: "-1002435691214"
+    notifications.argoproj.io/subscribe.on-sync-status-running.telegram: "-1002435691214"
 spec:
   project: sre-project
   source:
