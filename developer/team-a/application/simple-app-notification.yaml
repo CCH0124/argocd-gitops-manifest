@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple-app-notification
+  namespace: argo
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: simple-app-notification
+    environment: dev
+spec:
+  project: team-a-project
+  source:
+    repoURL: https://github.com/CCH0124/K8s-with-quarkus.git
+    targetRevision: HEAD
+    path: application-simple/helmchartlab/kustomize/overlays/dev
+  destination:
+    name: k3d-dev-cluster
+    namespace: team-a
+  # Sync policy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+      allowEmpty: false
+    syncOptions:  
+    - Validate=false
+    - CreateNamespace=true
+    - ApplyOutOfSyncOnly=true
+    managedNamespaceMetadata:
+      labels:
+        env: dev
+      annotations:
+        team: team-a
+        manage-by: argocd
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
