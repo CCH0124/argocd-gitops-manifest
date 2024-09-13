@@ -8,6 +8,10 @@ metadata:
   labels:
     name: simple-app-notification
     environment: dev
+  annotations:
+    notifications.argoproj.io/subscribe.on-deployed.telegram: "137740911"
+    notifications.argoproj.io/subscribe.on-sync-status-running.telegram: "137740911"
+    notifications.argoproj.io/subscribe.on-sync-status-error.telegram: "137740911"
 spec:
   project: team-a-project
   source:
