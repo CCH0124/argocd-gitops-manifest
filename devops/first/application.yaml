@@ -11,6 +11,8 @@ metadata:
   annotations:
     notifications.argoproj.io/subscribe.on-deployed.telegram: "-1002435691214"
     notifications.argoproj.io/subscribe.on-sync-status-running.telegram: "-1002435691214"
+    notifications.argoproj.io/subscribe.on-sync-status-error.telegram: "-1002435691214"
+    notifications.argoproj.io/subscribe.on-sync-status-unknown: "-1002435691214"
 spec:
   project: sre-project
   source:
