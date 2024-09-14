@@ -1,43 +1,42 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sre-app
+  name: simple-app-notification
   namespace: argo
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   labels:
-    name: sre-app
-    team: sre
+    name: simple-app-notification
+    environment: dev
   annotations:
     notifications.argoproj.io/subscribe.on-deployed.telegram: "-1002435691214"
     notifications.argoproj.io/subscribe.on-sync-status-running.telegram: "-1002435691214"
     notifications.argoproj.io/subscribe.on-sync-status-error.telegram: "-1002435691214"
     notifications.argoproj.io/subscribe.on-sync-status-unknown: "-1002435691214"
 spec:
-  project: sre-project
+  project: team-a-project
   source:
-    repoURL: https://github.com/CCH0124/argocd-gitops-manifest.git
-    targetRevision: v0.0.7
-    path: '.'
-    directory:
-      recurse: true
-      include: '{developer/*.yaml,devops/*.yaml,application-set/*.yaml}'
+    repoURL: https://github.com/CCH0124/K8s-with-quarkus.git
+    targetRevision: HEAD
+    path: application-simple/helmchartlab/kustomize/overlays/dev
   destination:
-    server: https://kubernetes.default.svc
-    namespace: 'argo'
+    name: k3d-dev-cluster
+    namespace: team-a
   # Sync policy
   syncPolicy:
     automated:
       prune: true
-      selfHeal: true
+      selfHeal: false
       allowEmpty: false
     syncOptions:  
-    - Validate=true
+    - Validate=false
     - CreateNamespace=true
     - ApplyOutOfSyncOnly=true
     managedNamespaceMetadata:
+      labels:
+        env: dev
       annotations:
-        team: sre
+        team: team-a
         manage-by: argocd
     retry:
       limit: 5

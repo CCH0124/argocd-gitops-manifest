@@ -32,4 +32,6 @@ spec:
     kind: Pod
   - group: 'batch'
     kind: Job
+  - group: '*'
+    kind: ConfigMap
   permitOnlyProjectScopedClusters: false
